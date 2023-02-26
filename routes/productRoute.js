@@ -1,0 +1,15 @@
+const express = require('express')
+const { addProduct, getAllProducts, getProductsByCategory, updateProduct, deleteProduct, productDetail, getFilteredProduct } = require('../controller/productController')
+const { requireSignin } = require('../controller/userController')
+const upload = require('../utils/fileUpload')
+const { productCheck, validate } = require('../validation')
+const router = express.Router()
+
+router.post('/addproduct',upload.single('product_image'), requireSignin, productCheck, validate, addProduct)
+router.get('/getallproducts', getAllProducts)
+router.get('/getproductsbycategory/:category_id', getProductsByCategory)
+router.put('/updateproduct/:id',upload.single('product_image'), requireSignin, updateProduct)
+router.delete('/deleteproduct/:id', requireSignin, deleteProduct)
+router.get('/productdetails/:id', productDetail)
+router.post('/getfilteredproducts', getFilteredProduct)
+module.exports = router
